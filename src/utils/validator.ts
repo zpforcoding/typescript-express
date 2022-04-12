@@ -4,6 +4,19 @@ import validator from 'validator'
 interface UserRegisterError extends Partial<IUserDocument> {
   confirmPassword?: string
 }
+export interface UserLoginError extends Partial<IUserDocument> {
+  general?: string
+}
+export const validateUserLogin = (username: IUserDocument['username'], password: IUserDocument['password']) => {
+  let errors: UserLoginError = {}
+  if (validator.isEmpty(username)) {
+    errors.username = 'Username cannot be empty'
+  }
+  if (validator.isEmpty(password)) {
+    errors.password = 'Password cannot be empty'
+  }
+  return { errors, valid: Object.keys(errors).length < 1 }
+}
 export const validateUserRegister = (username: IUserDocument['username'], password: IUserDocument['password'], confirmPassword: IUserDocument['password'], email: IUserDocument['email']) => {
   let errors: UserRegisterError = {}
   if (validator.isEmpty(username)) {

@@ -5,6 +5,7 @@ import bodyParser from 'body-parser'
 import { HttpException } from './exceptions/HttpException'
 import errorMiddleware from './middlewares/error.middleware'
 import * as UserController from './controller/user'
+import * as PostController from './controller/post'
 const app: Express = express()
 const port: any = process.env.PORT || 6060
 
@@ -15,8 +16,9 @@ app.get('/', (_req: Request, res: Response) => {
     message: 'Hello World',
   })
 })
-
+app.post('/users/login', UserController.postLogin)
 app.post('/users/register', UserController.postRegister)
+app.get('/posts', PostController.getPosts)
 
 app.use((_req: Request, _res: Response, next: NextFunction) => {
   const error: HttpException = new HttpException(StatusCodes.NOT_FOUND, 'Router not found')
